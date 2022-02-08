@@ -1,0 +1,27 @@
+class Main{
+    static class pair{
+        int value;
+        int gap ;
+        pair(int gap, int value){
+            this.gap = gap;
+            this.value = value;
+        }
+    }
+    public static void main(String[] args) {
+        int arr[] = {5,6,7,8,9};
+        int x = 7;
+        int nearest = 2;
+        PriorityQueue<pair> pq = new PriorityQueue<>((a,b)->(b.gap-a.gap));
+        for (int i = 0;i<arr.length;i++){
+            int value = arr[i];
+            int gap = Math.abs(x-arr[i]);
+            pq.add(new pair(gap,value));
+            if (pq.size()>nearest){
+                pq.poll();
+            }
+        }
+        while (!pq.isEmpty()){
+            System.out.println(pq.poll().value);
+        }
+    }
+}
