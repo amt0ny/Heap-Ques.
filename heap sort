@@ -1,0 +1,78 @@
+import java.util.*;
+class HeapImplementation{
+    ArrayList<Integer> list;
+    public HeapImplementation(){
+        this.list = new ArrayList<>();
+    }
+    public void add(int num){
+        int index = list.size();
+        list.add(index,num);
+        heapify_after_adding(index);
+    }
+    public void heapify_after_adding(int index){
+        int parent = (index-1)/2;
+
+        if (parent>=0 && list.get(parent)<list.get(index)){
+            swap(parent,index);
+        }
+        if (parent>0){
+            heapify_after_adding(parent);
+        }
+    }
+    public void remove(){
+        swap(list.size()-1,0);
+        list.remove(list.size()-1);
+        if (list.size()>1){
+            heapify_after_removing(0);
+        }
+    }
+    public void heapify_after_removing(int index){
+        int parent = index;
+        int left = 2*parent+1;
+        int right = 2*parent+2;
+
+        if (left<list.size() && list.get(left)>list.get(parent)) parent = left;
+        if (right<list.size() && list.get(right)>list.get(parent)) parent = right;
+
+        if (list.get(parent)>list.get(index)){
+            swap(index,parent);
+            heapify_after_removing(parent);
+        }
+    }
+    public void swap(int index1, int index2){
+        int num1 = list.get(index1);
+        int num2 = list.get(index2);
+        list.set(index1,num2);
+        list.set(index2,num1);
+    }
+    public int size(){
+        return list.size();
+    }
+    public int peek(){
+        return list.get(0);
+    }
+    public void print(){
+        for (int l : list){
+            System.out.println(l);
+        }
+    }
+    public Vector<Integer> Heapsort(int arr[], HeapImplementation heap){
+        Vector<Integer> vec = new Vector<>();
+        for (int i = 0;i<arr.length;i++){
+            heap.add(arr[i]);
+        }
+        while (heap.size()>0){
+            vec.add(heap.peek());
+            heap.remove();
+        }
+        return vec;
+    }
+    public static void main(String[] args) {
+        int arr[] = {1,0,2,9,3,8,7,4,6,5};
+        HeapImplementation heap = new HeapImplementation();
+        Vector<Integer> vec = heap.Heapsort(arr,heap);
+        for (int i = 0;i<vec.size();i++){
+            System.out.println(vec.get(i));
+        }
+    }
+}
