@@ -1,70 +1,65 @@
 package com.company;
 import java.util.*;
-class heapImplementation {
+class HeapImplementation{
 
     ArrayList<Integer> list;
-    public heapImplementation(){
+    
+    public HeapImplementation(){
         this.list = new ArrayList<>();
     }
-
+    
     public void add(int num){
         int index = list.size();
         list.add(index,num);
-        heapify_after_add(index);
+        heapify_after_adding(index);
     }
-    public void heapify_after_add(int child){
-        int parent = (child-1)/2;
-        if (parent >= 0 && list.get(parent) < list.get(child)){
-            swap(parent,child);
-        }
-        if (parent>0){
-            heapify_after_add(parent);
-        }
+    public void heapify_after_adding(int index){
+        int parent = (index-1)/2;
 
+        if (parent>=0 && list.get(parent)<list.get(index)){
+            swap(parent,index);
+        }
+        if (parent > 0){
+            heapify_after_adding(parent);
+        }
     }
     public void remove(){
-        swap(0,list.size()-1);
+        swap(list.size()-1,0);
         list.remove(list.size()-1);
-
+        if (list.size()>1){
+        heapify_after_removing(0);
+        }
     }
-    public void heapify_after_removal(int index){
+    public  void heapify_after_removing(int index) {
         int parent = index;
-        int left = 2*index+1;
-        int right = 2*index+2;
+        int left = 2*parent+1;
+        int right = 2*parent+2;
 
-        if (parent >= 0 && list.get(left)>list.get(parent)) parent = left;
-        if (parent >= 0 && list.get(right)>list.get(parent)) parent = right;
+        if (left<list.size() && list.get(parent)<list.get(left)) parent = left;
+        if (right<list.size() && list.get(parent)<list.get(right)) parent = right;
 
-        if (list.get(parent) != list.get(index)){
+        if (list.get(parent)>list.get(index)){
             swap(parent,index);
-            heapify_after_removal(parent);
+            heapify_after_adding(parent);
         }
     }
     public void swap(int index1, int index2){
         int num1 = list.get(index1);
         int num2 = list.get(index2);
-         list.set(index1,num2);
-         list.set(index2,num1);
+        list.set(index1,num2);
+        list.set(index2,num1);
     }
     public int peek(){
         return list.get(0);
     }
 
     public void print(){
-        for (int i : list){
-            System.out.println(i);
+        for (int num: list) {
+            System.out.println(num);
         }
     }
-
-    public static void main(String[] args) {
-        heapImplementation Heap = new heapImplementation();
-        Heap.add(2);
-        Heap.add(1);
-        Heap.add(7);
-        Heap.add(3);
-        Heap.add(5);
-//        System.out.println(list.peek());
-
-        Heap.print();
+    public int size(){
+        return list.size();
     }
+
 }
