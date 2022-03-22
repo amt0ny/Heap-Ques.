@@ -1,0 +1,55 @@
+package com.company;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+class Main{
+    static class pair{
+        String value;
+        int freq;
+        pair(String value,int freq){
+            this.value = value;
+            this.freq = freq;
+        }
+    }
+
+
+    public static void main(String[] args) {
+       String[] arr = {"oieu","aiou","eiou","ieou","bcde","aiou","aiou","bcde","bcde","eiou","eiou","eiou"};
+
+        PriorityQueue<pair> pq = new PriorityQueue<>((a,b)->b.freq-a.freq);
+        PriorityQueue<String> pq2 = new PriorityQueue<>();
+        HashMap<String,Integer> hmap = new HashMap<>();
+
+        for (int i = 0;i<arr.length;i++){
+            if (hmap.containsKey(arr[i])){
+                hmap.put(arr[i],hmap.get(arr[i])+1);
+            }
+            else {
+                hmap.put(arr[i],1);
+            }
+        }
+
+
+        for (Map.Entry<String,Integer> entry : hmap.entrySet()) {
+            pq.add(new pair(entry.getKey(), entry.getValue()));
+
+        }
+        System.out.println(pq.peek().value);
+        
+        }
+    }
+    
+    // now if some few String has same number of frequency then the code given below will help to select a string by sorting its first characters.
+    
+    /*
+int most_frequent = pq.peek().freq;
+        while (pq.peek().freq == most_frequent){
+            System.out.println(pq.peek().value);
+            pq2.add(pq.peek().value);
+            pq.poll();
+        }
+        System.out.println(".....................");
+        System.out.println(pq2.peek());
+ */
